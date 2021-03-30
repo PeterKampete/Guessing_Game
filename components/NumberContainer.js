@@ -14,17 +14,16 @@ const NumberContainer = (props) => {
 const styles = StyleSheet.create({
   container: {
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: Colors.accent,
     padding: 10,
     borderRadius: 10,
     marginVertical: 10,
     alignItems: "center",
     justifyContent: "center",
-    fontWeight: "900",
   },
   number: {
-    color: "white",
-    fontSize: 30,
+    color: Colors.accent,
+    fontSize: 28,
   },
 });
 

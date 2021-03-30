@@ -27,19 +27,19 @@ const generateRandomBetween = (min, max, exclude) => {
   }
 };
 
-// const renderListItem = (listLength, itemData) => {
-//   <View style={styles.listItem}>
-//     <BodyText>#{listLength - itemData.index}</BodyText>
-//     <BodyText>{itemData.item}</BodyText>
-//   </View>;
-// };
-
-const renderListItem = (value, numOfRound) => (
-  <View key={value} style={styles.listItem}>
-    <BodyText>#{numOfRound}</BodyText>
-    <BodyText>{value}</BodyText>
+const renderListItem = (listLength, itemData) => (
+  <View style={styles.listItem}>
+    <BodyText>#{listLength - itemData.index}</BodyText>
+    <BodyText>{itemData.item}</BodyText>
   </View>
 );
+
+// const renderListItem = (value, numOfRound) => (
+//   <View key={value} style={styles.listItem}>
+//     <BodyText>#{numOfRound}</BodyText>
+//     <BodyText>{value}</BodyText>
+//   </View>
+// );
 
 const GameScreen = (props) => {
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
@@ -104,22 +104,22 @@ const GameScreen = (props) => {
           </MainButton>
         </Card>
 
-        <View style={styles.listContainer}>
+        {/* <View style={styles.listContainer}>
           <ScrollView contentContainerStyle={styles.list}>
             {pastGuesses.map((guess, index) =>
               renderListItem(guess, pastGuesses.length - index)
             )}
           </ScrollView>
-        </View>
+        </View> */}
 
-        {/* <View style={styles.listContainer}>
-        <FlatList
-          keyExtractor={(item) => item}
-          data={pastGuesses}
-          renderItem={renderListItem.bind(this, pastGuesses.length)}
-          contentContainerStyle={styles.list}
-        />
-      </View> */}
+        <View style={styles.listContainer}>
+          <FlatList
+            keyExtractor={(item) => item}
+            data={pastGuesses}
+            renderItem={renderListItem.bind(this, pastGuesses.length)}
+            contentContainerStyle={styles.list}
+          />
+        </View>
       </View>
     </ImageBackground>
   );
@@ -139,33 +139,36 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     marginTop: 20,
     width: 400,
-    maxWidth: "90%",
+    maxWidth: "80%",
   },
 
   listItem: {
-    borderColor: "black",
-    borderWidth: 1,
+    borderColor: "white",
+    borderWidth: 2,
     padding: 15,
     marginVertical: 10,
     backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-between",
     borderRadius: 10,
-    marginHorizontal: 8,
-    width: "95%",
+    width: "100%",
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    paddingHorizontal: 5,
+    opacity: 0.9,
   },
 
   list: {
     flexGrow: 1,
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "flex-end",
   },
 
   listContainer: {
-    width: "80%",
+    width: "60%",
     flex: 1,
   },
 });
