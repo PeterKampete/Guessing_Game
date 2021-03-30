@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  ImageBackground,
 } from "react-native";
 
 import Card from "../components/Card";
@@ -66,41 +67,48 @@ const StartGameScreen = (props) => {
         Keyboard.dismiss();
       }}
     >
-      <View style={styles.screen}>
-        <TitleText style={styles.title}>New Game</TitleText>
-        <Card style={styles.inputContainer}>
-          <BodyText>Select a Number</BodyText>
-          <Input
-            style={styles.input}
-            blurOnSubmit
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="number-pad"
-            maxLength={2}
-            onChangeText={numberInputHandler}
-            value={enteredValue}
-          />
-          <View style={styles.butonContainer}>
-            <View>
-              <Button
-                style={styles.button}
-                title="Reset"
-                color={Colors.accent}
-                onPress={resetInpurHandler}
-              />
+      <ImageBackground
+        source={require("../assets/images/success.jpg")}
+        style={styles.image}
+      >
+        <View style={styles.screen}>
+          <TitleText style={styles.title}>
+            <Text style={styles.newGame}>New Game</Text>
+          </TitleText>
+          <Card style={styles.inputContainer}>
+            <BodyText>Select a Number</BodyText>
+            <Input
+              style={styles.input}
+              blurOnSubmit
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="number-pad"
+              maxLength={2}
+              onChangeText={numberInputHandler}
+              value={enteredValue}
+            />
+            <View style={styles.butonContainer}>
+              <View>
+                <Button
+                  style={styles.button}
+                  title="Reset"
+                  color={Colors.accent}
+                  onPress={resetInpurHandler}
+                />
+              </View>
+              <View>
+                <Button
+                  style={styles.button}
+                  title="Confirm"
+                  color={Colors.primary}
+                  onPress={confirmInputHandler}
+                />
+              </View>
             </View>
-            <View>
-              <Button
-                style={styles.button}
-                title="Confirm"
-                color={Colors.primary}
-                onPress={confirmInputHandler}
-              />
-            </View>
-          </View>
-        </Card>
-        {confirmedOutput}
-      </View>
+          </Card>
+          {confirmedOutput}
+        </View>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 };
@@ -111,7 +119,17 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
   },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+  },
 
+  newGame: {
+    color: "white",
+    fontWeight: "bold",
+    fontFamily: "open-sans-bold",
+  },
   title: {
     fontSize: 20,
     marginVertical: 10,

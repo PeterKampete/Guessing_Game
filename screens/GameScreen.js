@@ -1,5 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet, Alert, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  FlatList,
+  ScrollView,
+  ImageBackground,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import Card from "../components/Card";
@@ -19,12 +27,19 @@ const generateRandomBetween = (min, max, exclude) => {
   }
 };
 
-const renderListItem = (listLength, itemData) => {
-  <View style={styles.listItem}>
-    <BodyText>#{listLength - itemData.item}</BodyText>
-    <BodyText>{itemData.item}</BodyText>
-  </View>;
-};
+// const renderListItem = (listLength, itemData) => {
+//   <View style={styles.listItem}>
+//     <BodyText>#{listLength - itemData.index}</BodyText>
+//     <BodyText>{itemData.item}</BodyText>
+//   </View>;
+// };
+
+const renderListItem = (value, numOfRound) => (
+  <View key={value} style={styles.listItem}>
+    <BodyText>#{numOfRound}</BodyText>
+    <BodyText>{value}</BodyText>
+  </View>
+);
 
 const GameScreen = (props) => {
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
@@ -56,7 +71,7 @@ const GameScreen = (props) => {
     if (direction === "lower") {
       currentHigh.current = currentGuess;
     } else {
-      currentLow.current = currentGuess;
+      currentLow.current = currentGuess + 1;
     }
 
     const nextNumber = generateRandomBetween(
@@ -73,26 +88,40 @@ const GameScreen = (props) => {
   };
 
   return (
-    <View style={styles.screen}>
-      <Text style={DefaultStyles.title}>Opponent's Guess</Text>
-      <NumberContainer>{currentGuess}</NumberContainer>
-      <Card style={styles.buttonContainer}>
-        <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
-          <Ionicons name="md-remove" size={24} color="white" />
-        </MainButton>
-        <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
-          <Ionicons name="md-add" size={24} color="white" />
-        </MainButton>
-      </Card>
-      <View style={styles.listContainer}>
+    <ImageBackground
+      source={require("../assets/images/success.jpg")}
+      style={styles.image}
+    >
+      <View style={styles.screen}>
+        <Text style={DefaultStyles.title}>Opponent's Guess</Text>
+        <NumberContainer>{currentGuess}</NumberContainer>
+        <Card style={styles.buttonContainer}>
+          <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
+            <Ionicons name="md-remove" size={24} color="white" />
+          </MainButton>
+          <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
+            <Ionicons name="md-add" size={24} color="white" />
+          </MainButton>
+        </Card>
+
+        <View style={styles.listContainer}>
+          <ScrollView contentContainerStyle={styles.list}>
+            {pastGuesses.map((guess, index) =>
+              renderListItem(guess, pastGuesses.length - index)
+            )}
+          </ScrollView>
+        </View>
+
+        {/* <View style={styles.listContainer}>
         <FlatList
           keyExtractor={(item) => item}
           data={pastGuesses}
           renderItem={renderListItem.bind(this, pastGuesses.length)}
           contentContainerStyle={styles.list}
         />
+      </View> */}
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -101,6 +130,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: "center",
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 
   buttonContainer: {
@@ -119,15 +153,19 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "100%",
+    borderRadius: 10,
+    marginHorizontal: 8,
+    width: "95%",
   },
+
   list: {
     flexGrow: 1,
+    alignItems: "center",
     justifyContent: "flex-end",
   },
 
   listContainer: {
-    width: "60%",
+    width: "80%",
     flex: 1,
   },
 });
